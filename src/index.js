@@ -38,19 +38,35 @@ function searchZip () {
    console.log('dddd')
    dropdownButton.innerText = "Zip Code:"
 }
-// async function getWeatherData() {
-//    // let weatherCall = https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}
-//    let weatherResponse = await fetch ('http://api.openweathermap.org/geo/1.0/direct?q=London&limit=5&appid=7100239e64c481b759f7889a357558f4', {mode: 'cors'});
-//    let weatherData = await weatherResponse.json();
-//    let lattitute = weatherData[0].lat;
-//    let longitude = weatherData[0].lon;
-//     let unit = 'imperial'
+
+
+   let confirmBtn = document.querySelector('.confirm')
+   confirmBtn.onclick = () => {
+      if (dropdownButton.innerText = 'Zip Code') {
+         let zipValue = document.getElementById('search').value;
+         console.log(zipValue);
+         getWeatherDataZip(zipValue)
+      }
+   }
+
+async function getWeatherDataZip(zip) {
+   // let weatherCall = https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}
+
+   let getCoors = await fetch (`http://api.openweathermap.org/geo/1.0/zip?zip=${zip}&appid=7100239e64c481b759f7889a357558f4`, {mode: 'cors'});
+   let coorData = await getCoors.json();
+   console.log(coorData);
+   let lattitute = coorData.lat;
+   let longitude = coorData.lon;
+   
+  // let weatherResponse = await fetch ('http://api.openweathermap.org/geo/1.0/direct?q=London&limit=5&appid=7100239e64c481b759f7889a357558f4', {mode: 'cors'});
+
+   let unit = 'imperial'
   
-//    let weatherCall = await fetch (`https://api.openweathermap.org/data/2.5/weather?lat=${lattitute}&lon=${longitude}&appid=7100239e64c481b759f7889a357558f4&units=${unit}`, {mode: 'cors'});
-//    let weather = await weatherCall.json();
-//    console.log(weather)
-//    //console.log(weatherData[0].lat)
+  let weatherCall = await fetch (`https://api.openweathermap.org/data/2.5/weather?lat=${lattitute}&lon=${longitude}&appid=7100239e64c481b759f7889a357558f4&units=${unit}`, {mode: 'cors'});
+  let weather = await weatherCall.json();
+  console.log(weather)
+   //console.log(weatherData[0].lat)
 
 
-// }
+}
 // getWeatherData();
