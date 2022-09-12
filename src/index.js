@@ -35,26 +35,31 @@ zipCode.onclick = () => searchZip();
 city.onclick = () => searchCity();
 
 function searchZip () {
-   console.log('dddd')
+   // console.log('dddd')
    dropdownButton.innerText = "Zip Code:"
 }
 
 
    let confirmBtn = document.querySelector('.confirm')
-   confirmBtn.onclick = () => {
+   confirmBtn.onclick = async () => {
       if (dropdownButton.innerText = 'Zip Code') {
          let zipValue = document.getElementById('search').value;
          console.log(zipValue);
-         getWeatherDataZip(zipValue)
+       let weather = await getWeatherDataZip(zipValue)
+       
+      // return weather
       }
    }
 
+// console.loweather);
+
+  // console.log(weather);
 async function getWeatherDataZip(zip) {
    // let weatherCall = https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}
 
    let getCoors = await fetch (`http://api.openweathermap.org/geo/1.0/zip?zip=${zip}&appid=7100239e64c481b759f7889a357558f4`, {mode: 'cors'});
    let coorData = await getCoors.json();
-   console.log(coorData);
+  // console.log(coorData);
    let lattitute = coorData.lat;
    let longitude = coorData.lon;
    
@@ -64,9 +69,25 @@ async function getWeatherDataZip(zip) {
   
   let weatherCall = await fetch (`https://api.openweathermap.org/data/2.5/weather?lat=${lattitute}&lon=${longitude}&appid=7100239e64c481b759f7889a357558f4&units=${unit}`, {mode: 'cors'});
   let weather = await weatherCall.json();
-  console.log(weather)
-   //console.log(weatherData[0].lat)
+  console.log(weather);
+  displayWeather(weather);
 
 
 }
-// getWeatherData();
+
+
+function displayWeather(weatherData) {
+   const display = document.getElementById('display');
+   const tempDisplay = document.createElement('div');
+   tempDisplay.setAttribute('class', 'temp');
+   const currentTemp = weatherData.main.temp;
+   console.log(currentTemp);
+   tempDisplay.innerText = currentTemp;
+   display.appendChild(tempDisplay);
+   if (currentTemp > 90) {
+      console.log('sunny')
+      display.setAttribute('class', 'hot')
+
+   }
+
+}
