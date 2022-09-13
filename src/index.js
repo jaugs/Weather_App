@@ -1,13 +1,22 @@
 import './style.css';
-import sun from './sun.svg';
+import cloudy from './icons/weather-cloudy.svg';
+import lightning from './icons/weather-lightning.svg';
+import night from './icons/weather-night.svg';
+import partly_cloudy from './icons/weather-partly-cloudy.svg';
+import pouring from './icons/weather-pouring.svg';
+import snowy_rainy from './icons/weather-snowy-rainy.svg';
+import rainy from './icons/weather-rainy.svg';
+import snowy from './icons/weather-snowy.svg';
+import sunny from './icons/weather-sunny.svg';
+import windy from './icons/weather-windy.svg';
 import printMe from './print.js';
 
 
 const container = document.querySelector('.container');
 const header = document.querySelector('.header');
-   const myIcon = new Image();
-   myIcon.src = sun;
-container.appendChild(myIcon);
+   // const myIcon = new Image();
+   // myIcon.src = cloudy;
+// container.appendChild(myIcon);
 
 
 const dropdownButton = document.querySelector('.dropbtn');
@@ -38,8 +47,6 @@ function searchZip () {
    // console.log('dddd')
    dropdownButton.innerText = "Zip Code:"
 }
-
-
    let confirmBtn = document.querySelector('.confirm')
    confirmBtn.onclick = async () => {
       if (dropdownButton.innerText = 'Zip Code') {
@@ -76,6 +83,13 @@ async function getWeatherDataZip(zip) {
 }
 
 
+function createIcon (type) {
+   const icon = new Image();
+   icon.src = type;
+   icon.setAttribute('class', 'icon')
+   return icon
+}
+
 function displayWeather(weatherData) {
    const display = document.getElementById('display');
    const tempDisplay = document.createElement('div');
@@ -84,10 +98,34 @@ function displayWeather(weatherData) {
    console.log(currentTemp);
    tempDisplay.innerText = currentTemp;
    display.appendChild(tempDisplay);
+
+   let weatherID = weatherData.weather[0].id;
+   let currentIcon = weatherType(weatherID);
+   display.appendChild(createIcon(currentIcon));
+
+   
    if (currentTemp > 90) {
       console.log('sunny')
       display.setAttribute('class', 'hot')
 
    }
 
+}
+
+function weatherType (code, time) {
+   if (code === 800) {
+      return sunny
+   } else if (code > 800) {
+      return cloudy
+   } else if ((code >= 600) && (code <= 622)) {
+      return snowy
+   } else if ((code >= 500) && (code <= 501)) {
+      return rainy
+   } else if ((code >= 501) && (code <= 531)) {
+      return pouring
+   } else if ((code >= 300) && (code <= 321)) {
+      return  rainy
+   } else if ((code >= 200) && (code <= 232)) {
+      return lightning
+   } else return windy
 }
