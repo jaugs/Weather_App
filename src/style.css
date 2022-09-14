@@ -43,6 +43,44 @@
   /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
   .show {display:block;}
 
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.searchContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  align-items: center;
+  justify-content: center;
+
+}
+
+#display {
+  width: 24rem;
+  height: 20rem;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid black;
+  box-shadow: 1px 1px 1px;
+  justify-content: center;
+  align-items: center;
+  gap: 5rem;
+
+}
+
+.tempDisplay {
+  display: flex;
+  flex-direction: row;
+  gap: 2px;
+  font-size: 28px;
+  font-weight: 700;
+
+}
   .icon {
     width: 2rem;
   }

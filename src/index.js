@@ -93,26 +93,27 @@ function createIcon (type) {
 function displayWeather(weatherData) {
    const display = document.getElementById('display');
    const tempDisplay = document.createElement('div');
-   tempDisplay.setAttribute('class', 'temp');
-   const currentTemp = weatherData.main.temp;
-   console.log(currentTemp);
-   tempDisplay.innerText = currentTemp;
+   tempDisplay.setAttribute('class', 'tempDisplay');
+   const temperature = document.createElement('div')
+   temperature.innerText = weatherData.main.temp;
+   let unit = document.createElement('div');
+   unit.setAttribute('class', 'unit');
+   unit.innerText = ' °F';
+   tempDisplay.appendChild(temperature);
+   tempDisplay.appendChild(unit);
    display.appendChild(tempDisplay);
 
+
    let weatherID = weatherData.weather[0].id;
-   let currentIcon = weatherType(weatherID);
+   let currentIcon = weatherIconType(weatherID);
    display.appendChild(createIcon(currentIcon));
 
    
-   if (currentTemp > 90) {
-      console.log('sunny')
-      display.setAttribute('class', 'hot')
-
-   }
+  
 
 }
 
-function weatherType (code, time) {
+function weatherIconType (code, time) {
    if (code === 800) {
       return sunny
    } else if (code > 800) {
