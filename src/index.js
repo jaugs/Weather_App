@@ -9,6 +9,14 @@ import rainy from './icons/weather-rainy.svg';
 import snowy from './icons/weather-snowy.svg';
 import sunny from './icons/weather-sunny.svg';
 import windy from './icons/weather-windy.svg';
+import cloudyBackground from './backgrounds/cloudyBackground.jpg';
+import partlycloudyBackground from './backgrounds/partlycloudyBackground.jpg';
+import pouringBackground from './backgrounds/pouringBackground.jpg';
+import rainyBackground from './backgrounds/rainyBackground.jpg';
+import snowyBackground from './backgrounds/snowyBackground.jpg';
+import sunBackground from './backgrounds/sunBackground.jpg';
+import thunderBackground from './backgrounds/thunderBackground.jpg';
+import windyBackground from './backgrounds/windyBackground.jpg';
 import printMe from './print.js';
 
 
@@ -83,6 +91,15 @@ async function getWeatherDataZip(zip) {
 }
 
 
+function createBackground (type) {
+   const background = new Image();
+   background.src = type;
+   background.setAttribute('class', 'background')
+   background.setAttribute('id', type)
+   return background
+}
+
+
 function createIcon (type) {
    const icon = new Image();
    icon.src = type;
@@ -107,11 +124,33 @@ function displayWeather(weatherData) {
    let weatherID = weatherData.weather[0].id;
    let currentIcon = weatherIconType(weatherID);
    display.appendChild(createIcon(currentIcon));
-
+   let currentBackground = createBackground(weatherBackground(weatherID));
+   console.log(currentBackground);
+   display.style.backgroundImage = `url(` + thunderBackground + `)`
+  // display.appendChild(createBackground(sunBackground));
    
   
 
 }
+
+function weatherBackground (code, time) {
+   if (code === 800) {
+      return sunBackground
+   } else if (code > 800) {
+      return cloudyBackground
+   } else if ((code >= 600) && (code <= 622)) {
+      return snowyBackground
+   } else if ((code >= 500) && (code <= 501)) {
+      return rainyBackground
+   } else if ((code >= 501) && (code <= 531)) {
+      return pouringBackground
+   } else if ((code >= 300) && (code <= 321)) {
+      return  rainyBackground
+   } else if ((code >= 200) && (code <= 232)) {
+      return thunderBackground
+   } else return windyBackground
+}
+
 
 function weatherIconType (code, time) {
    if (code === 800) {
