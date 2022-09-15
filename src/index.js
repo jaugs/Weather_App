@@ -22,11 +22,6 @@ import printMe from './print.js';
 
 const container = document.querySelector('.container');
 const header = document.querySelector('.header');
-   // const myIcon = new Image();
-   // myIcon.src = cloudy;
-// container.appendChild(myIcon);
-
-
 const dropdownButton = document.querySelector('.dropbtn');
 dropdownButton.onclick = () => {showSelections();}
   
@@ -52,53 +47,39 @@ zipCode.onclick = () => searchZip();
 city.onclick = () => searchCity();
 
 function searchZip () {
-   // console.log('dddd')
    dropdownButton.innerText = "Zip Code:"
 }
+
+function searchCity () {
+   dropdownButton.innerText = "City:"
+
+}
+
    let confirmBtn = document.querySelector('.confirm')
    confirmBtn.onclick = async () => {
-      if (dropdownButton.innerText = 'Zip Code') {
+      if (dropdownButton.innerText == 'Zip Code:') {
          let zipValue = document.getElementById('search').value;
          console.log(zipValue);
-       let weather = await getWeatherDataZip(zipValue)
-       
-      // return weather
+         let weather = await getWeatherData(zipValue)
+      } else if (dropdownButton.innerText == 'City:') {
+         let cityValue = document.getElementById('search').value;
+         console.log(cityValue);
+         let weather = await getWeatherData(cityValue)
       }
    }
 
-// console.loweather);
 
-  // console.log(weather);
-async function getWeatherDataZip(zip) {
-   // let weatherCall = https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}
-
+async function getWeatherData(zip, city) {
    let getCoors = await fetch (`http://api.openweathermap.org/geo/1.0/zip?zip=${zip}&appid=7100239e64c481b759f7889a357558f4`, {mode: 'cors'});
    let coorData = await getCoors.json();
-  // console.log(coorData);
    let lattitute = coorData.lat;
    let longitude = coorData.lon;
-   
-  // let weatherResponse = await fetch ('http://api.openweathermap.org/geo/1.0/direct?q=London&limit=5&appid=7100239e64c481b759f7889a357558f4', {mode: 'cors'});
-
    let unit = 'imperial'
-  
   let weatherCall = await fetch (`https://api.openweathermap.org/data/2.5/weather?lat=${lattitute}&lon=${longitude}&appid=7100239e64c481b759f7889a357558f4&units=${unit}`, {mode: 'cors'});
   let weather = await weatherCall.json();
   console.log(weather);
   displayWeather(weather);
-
-
 }
-
-
-function createBackground (type) {
-   const background = new Image();
-   background.src = type;
-   background.setAttribute('class', 'background')
-   background.setAttribute('id', type)
-   return background
-}
-
 
 function createIcon (type) {
    const icon = new Image();
@@ -109,6 +90,15 @@ function createIcon (type) {
 
 function displayWeather(weatherData) {
    const display = document.getElementById('display');
+
+   const nameDisplay = document.createElement('div');
+   nameDisplay.setAttribute('class', 'location')
+   nameDisplay.innerText = weatherData.name;
+   let weatherID = weatherData.weather[0].id;
+   let currentIcon = weatherIconType(weatherID);
+   nameDisplay.appendChild(createIcon(currentIcon));
+   display.appendChild(nameDisplay);
+
    const tempDisplay = document.createElement('div');
    tempDisplay.setAttribute('class', 'tempDisplay');
    const temperature = document.createElement('div')
@@ -120,17 +110,41 @@ function displayWeather(weatherData) {
    tempDisplay.appendChild(unit);
    display.appendChild(tempDisplay);
 
+   const humidityDisplay = document.createElement('div');
+   humidityDisplay.setAttribute('class', 'humidity')
+   humidityDisplay.innerText = `${weatherData.main.humidity}% Humidity`;
+   display.appendChild(humidityDisplay);
 
-   let weatherID = weatherData.weather[0].id;
-   let currentIcon = weatherIconType(weatherID);
-   display.appendChild(createIcon(currentIcon));
-   let currentBackground = createBackground(weatherBackground(weatherID));
-   console.log(currentBackground);
-   display.style.backgroundImage = `url(` + thunderBackground + `)`
-  // display.appendChild(createBackground(sunBackground));
-   
-  
 
+   const windDisplay = document.createElement('div');
+   windDisplay.setAttribute('class', 'windDisplay')
+   let windDirection = getWind(weatherData.wind.deg);
+   windDisplay.innerText = `${windDirection} ${weatherData.wind.speed} MPH`;
+   display.appendChild(windDisplay);
+   // let currentBackground = createBackground(weatherBackground(weatherID));
+  // console.log(currentBackground);
+   display.style.backgroundImage = `url(` + weatherBackground(weatherID) + `)`
+
+}
+
+function getWind(degree) {
+   if ((degree >= 340 ) || (degree <= 30)) {
+      return "N"
+   } else if ((degree >= 31 ) && (degree <= 69)) {
+      return "NE"
+   } else if ((degree >= 70 ) && (degree <= 120)) {
+      return "E"
+   } else if ((degree >= 121 ) && (degree <= 159)) {
+      return "SE"
+   } else if ((degree >= 160 ) && (degree <= 200)) {
+      return "S"
+   } else if ((degree >= 201 ) && (degree <= 249)) {
+      return "SW"
+   } else if ((degree >= 250 ) && (degree <= 290)) {
+      return "W"
+   } else if ((degree >= 291 ) && (degree <= 339)) {
+      return "NW"
+   } else return "?"
 }
 
 function weatherBackground (code, time) {
