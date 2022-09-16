@@ -24,7 +24,15 @@ const container = document.querySelector('.container');
 const header = document.querySelector('.header');
 const dropdownButton = document.querySelector('.dropbtn');
 dropdownButton.onclick = () => {showSelections();}
-  
+var now = new Date();
+var now_utc = new Date(now.toUTCString());
+var new_utc = new Date(now.toUTCString().slice(0, -4));
+//let time = new_utc.slice(-16);
+
+console.log(new_utc)
+
+
+
    function showSelections() {
       document.getElementById("drop").classList.toggle("show");
  }
@@ -92,17 +100,72 @@ async function getWeatherDataZip(zip) {
 }
 
 async function getForecast (lat, lon){
+  // let currentTime = Math.floor(new Date().getTime()/1000.0)
+   
    let unit = 'imperial'
   let forecastCall = await fetch (`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=7100239e64c481b759f7889a357558f4&units=${unit}`, {mode: 'cors'});
   let forecastData = await forecastCall.json();
   console.log(forecastData);
-  displayForecast(forecastData)
-}
 
+
+  displayForecast(forecastData)
+
+}
+ 
+
+
+// const points = [40, 100, 1, 5, 25, 10];
+// points.sort(function(a, b){return a - b});
 function displayForecast(data) {
    const container = document.getElementById('forecast')
-   
+   const day1 = document.getElementById('day1')
+   const day2 = document.getElementById('day2')
+   const day3 = document.getElementById('day3')
+   const day4 = document.getElementById('day4')
+   const day5 = document.getElementById('day5')
 
+
+   let day1Temp = [];
+   for (let i = 0; i < 8; i++) {
+      day1Temp[i] = (data.list[i].main.temp);
+   }
+   const max1 = day1Temp.reduce((a, b) => Math.max(a, b), -Infinity);
+   console.log(max1);
+   console.log(typeof(max1));
+   const min1 = day1Temp.reduce((a, b) => Math.min(a, b))
+   day1.innerText= `${max1}°F/${min1}°F`;
+
+   let day2Temp = [];
+   for (let i = 8; i < 16; i++) {
+      day2Temp[i] = (data.list[i].main.temp);
+   }
+   const max2 = day2Temp.reduce((a, b) => Math.max(a, b), -Infinity);
+   const min2 = day2Temp.reduce((a, b) => Math.min(a, b))
+   day2.innerText= `${max2}°F/${min2}°F`;
+
+   let day3Temp = [];
+   for (let i = 16; i < 24; i++) {
+      day3Temp[i] = (data.list[i].main.temp);
+   }
+   const max3 = day3Temp.reduce((a, b) => Math.max(a, b), -Infinity);
+   const min3 = day3Temp.reduce((a, b) => Math.min(a, b))
+   day3.innerText= `${max3}°F/${min3}°F`;
+
+   let day4Temp = [];
+   for (let i = 24; i < 32; i++) {
+      day4Temp[i] = (data.list[i].main.temp);
+   }
+   const max4 = day4Temp.reduce((a, b) => Math.max(a, b), -Infinity);
+   const min4 = day4Temp.reduce((a, b) => Math.min(a, b))
+   day4.innerText= `${max4}°F/${min4}°F`;
+
+   let day5Temp = [];
+   for (let i = 32; i < 40; i++) {
+      day5Temp[i] = (data.list[i].main.temp);
+   }
+   const max5 = day5Temp.reduce((a, b) => Math.max(a, b), -Infinity);
+   const min5 = day5Temp.reduce((a, b) => Math.min(a, b))
+   day5.innerText= `${max5}°F/${min5}°F`;
 }
 
 function createIcon (type) {
