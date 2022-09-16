@@ -60,25 +60,49 @@ function searchCity () {
       if (dropdownButton.innerText == 'Zip Code:') {
          let zipValue = document.getElementById('search').value;
          console.log(zipValue);
-         let weather = await getWeatherData(zipValue)
+         let weather = await getWeatherDataZip(zipValue)
       } else if (dropdownButton.innerText == 'City:') {
          let cityValue = document.getElementById('search').value;
          console.log(cityValue);
-         let weather = await getWeatherData(cityValue)
-      }
+         let weather = await getWeatherDataCity(cityValue)
+      } else dropdownButton.style.backgroundColor = 'red';
+   }
+
+   async function getWeatherDataCity(city) {
+     let unit = 'imperial'
+      let weather = await fetch (`http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=7100239e64c481b759f7889a357558f4&units=${unit}`, {mode: 'cors'});
+      let weatherData = await weather.json();
+      console.log(weatherData);
+      displayWeather(weatherData);
    }
 
 
-async function getWeatherData(zip, city) {
+
+async function getWeatherDataZip(zip) {
    let getCoors = await fetch (`http://api.openweathermap.org/geo/1.0/zip?zip=${zip}&appid=7100239e64c481b759f7889a357558f4`, {mode: 'cors'});
    let coorData = await getCoors.json();
    let lattitute = coorData.lat;
    let longitude = coorData.lon;
+   getForecast(lattitute, longitude);
    let unit = 'imperial'
   let weatherCall = await fetch (`https://api.openweathermap.org/data/2.5/weather?lat=${lattitute}&lon=${longitude}&appid=7100239e64c481b759f7889a357558f4&units=${unit}`, {mode: 'cors'});
-  let weather = await weatherCall.json();
-  console.log(weather);
-  displayWeather(weather);
+  let weatherData = await weatherCall.json();
+  console.log(weatherData);
+  displayWeather(weatherData);
+}
+
+async function getForecast (lat, lon){
+   let unit = 'imperial'
+  let forecastCall = await fetch (`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=7100239e64c481b759f7889a357558f4&units=${unit}`, {mode: 'cors'});
+  let forecastData = await forecastCall.json();
+  console.log(forecastData);
+  displayForecast(forecastData)
+}
+
+function displayForecast(data) {
+   const container = document.getElementById('forecast')
+   
+
 }
 
 function createIcon (type) {
