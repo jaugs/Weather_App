@@ -1,46 +1,83 @@
-/* Dropdown Button */
-.dropbtn {
-    background-color: #3498DB;
-    color: white;
-    padding: 16px;
-    font-size: 16px;
+body {
+  background-color: #0c4a6e;
+}
+
+.header {
+  background-color: #e0f2fe;
+  text-shadow: -1px 0  white, 0 1px  white, 1px 0  white, 0 -1px  white;
+  font-size: 35px;
+  font-weight: 600;
+  color: #0c4a6e;
+  width: 15rem;
+  height: 5rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid black;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  padding: 1rem;
+  border-radius: 14px;
+}
+
+.confirm {
+  background-color: #0369a1;
+    width: 8rem;
+    height: 4rem;
+    color: #f0f9ff;
+    padding: 10px;
+    font-size: 20px;
     border: none;
     cursor: pointer;
+    border-radius: 14px;
+}
+
+input[type=text] {
+  width: 45%;
+  border: 2px solid #0c4a6e;
+  border-radius: 14px;
+  padding: 10px;
+}
+
+.dropbtn {
+    background-color: #0369a1;
+    width: 8rem;
+    height: 4rem;
+    color: #f0f9ff;
+    padding: 10px;
+    font-size: 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 14px;
   }
   
-  /* Dropdown button on hover & focus */
-  .dropbtn:hover, .dropbtn:focus {
-    background-color: #2980B9;
+  .dropbtn:hover, .dropbtn:focus, .confirm:hover, .confirm:focus {
+    background-color: #0c4a6e;
   }
   
-  /* The container <div> - needed to position the dropdown content */
   .dropdownMenu {
     position: relative;
     display: inline-block;
   }
   
-  /* Dropdown Content (Hidden by Default) */
   .dropdown-content {
     display: none;
     position: absolute;
-    background-color: #f1f1f1;
+    background-color: #f0f9ff;
     min-width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
   }
   
-  /* Links inside the dropdown */
   .dropdown-content a {
-    color: black;
+    color: #0c4a6e;
     padding: 12px 16px;
     text-decoration: none;
     display: block;
   }
   
-  /* Change color of dropdown links on hover */
-  .dropdown-content a:hover {background-color: #ddd;}
+  .dropdown-content a:hover {background-color: #bae6fd;}
   
-  /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
   .show {display:block;}
 
 .container {
@@ -52,25 +89,31 @@
 }
 
 .searchContainer {
+  background-color: #e0f2fe;
   display: flex;
   flex-direction: row;
   gap: 2rem;
   align-items: center;
   justify-content: center;
   border: 1px solid black;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  padding: 1rem;
+  border-radius: 14px;
 
 }
 
 #display {
+  background-color: #e0f2fe;
   width: 24rem;
   height: 30rem;
   display: flex;
   flex-direction: column;
   border: 1px solid black;
-  box-shadow: 1px 1px 1px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   justify-content: center;
   align-items: center;
   gap: 5rem;
+  border-radius: 14px;
 
 }
 
@@ -117,4 +160,35 @@
     gap: 2px;
     font-size: 36px;
     font-weight: 700;
+  }
+.forecastTitle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 34px;
+  font-weight: 700;
+}
+  #forecast {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1px;
+
+  }
+
+  .forecastContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    width: 39rem;
+    height: 7rem;
+    color: #0c4a6e;
+    background-color: #e0f2fe;
+    border: 1px solid black;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    border-radius: 14px;
   }

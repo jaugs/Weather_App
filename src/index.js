@@ -123,15 +123,12 @@ function displayForecast(data) {
    const day3 = document.getElementById('day3')
    const day4 = document.getElementById('day4')
    const day5 = document.getElementById('day5')
-
-
+  
    let day1Temp = [];
    for (let i = 0; i < 8; i++) {
       day1Temp[i] = (data.list[i].main.temp);
    }
    const max1 = day1Temp.reduce((a, b) => Math.max(a, b), -Infinity);
-   console.log(max1);
-   console.log(typeof(max1));
    const min1 = day1Temp.reduce((a, b) => Math.min(a, b))
    day1.innerText= `${max1}°F/${min1}°F`;
 
