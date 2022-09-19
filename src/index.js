@@ -19,24 +19,12 @@ import thunderBackground from './backgrounds/thunderBackground.jpg';
 import windyBackground from './backgrounds/windyBackground.jpg';
 import printMe from './print.js';
 
-
-const container = document.querySelector('.container');
-const header = document.querySelector('.header');
 const dropdownButton = document.querySelector('.dropbtn');
 dropdownButton.onclick = () => {showSelections();}
-var now = new Date();
-var now_utc = new Date(now.toUTCString());
-var new_utc = new Date(now.toUTCString().slice(0, -4));
-//let time = new_utc.slice(-16);
 
-console.log(new_utc)
-
-
-
-   function showSelections() {
+function showSelections() {
       document.getElementById("drop").classList.toggle("show");
  }
- 
  // Close the dropdown menu if the user clicks outside of it
  window.onclick = function(event) {
    if (!event.target.matches('.dropbtn')) {
@@ -60,29 +48,27 @@ function searchZip () {
 
 function searchCity () {
    dropdownButton.innerText = "City:"
-
 }
 
-   let confirmBtn = document.querySelector('.confirm')
-   confirmBtn.onclick = async () => {
-      if (dropdownButton.innerText == 'Zip Code:') {
-         let zipValue = document.getElementById('search').value;
-         console.log(zipValue);
-         let weather = await getWeatherDataZip(zipValue)
-      } else if (dropdownButton.innerText == 'City:') {
-         let cityValue = document.getElementById('search').value;
-         console.log(cityValue);
-         let weather = await getWeatherDataCity(cityValue)
-      } else dropdownButton.style.backgroundColor = 'red';
+let confirmBtn = document.querySelector('.confirm')
+confirmBtn.onclick = async () => {
+   if (dropdownButton.innerText == 'Zip Code:') {
+      let zipValue = document.getElementById('search').value;
+      console.log(zipValue);
+      let weather = await getWeatherDataZip(zipValue)
+   } else if (dropdownButton.innerText == 'City:') {
+      let cityValue = document.getElementById('search').value;
+      let weather = await getWeatherDataCity(cityValue)
+   } else dropdownButton.style.backgroundColor = 'red';
    }
 
-   async function getWeatherDataCity(city) {
-     let unit = 'imperial'
-      let weather = await fetch (`http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=7100239e64c481b759f7889a357558f4&units=${unit}`, {mode: 'cors'});
-      let weatherData = await weather.json();
-      console.log(weatherData);
-      displayWeather(weatherData);
-   }
+async function getWeatherDataCity(city) {
+   let unit = 'imperial'
+   let weather = await fetch (`http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=7100239e64c481b759f7889a357558f4&units=${unit}`, {mode: 'cors'});
+   let weatherData = await weather.json();
+   getForecast(weatherData.coord.lat, weatherData.coord.lon);
+   displayWeather(weatherData);
+}
 
 
 
@@ -99,23 +85,14 @@ async function getWeatherDataZip(zip) {
   displayWeather(weatherData);
 }
 
-async function getForecast (lat, lon){
-  // let currentTime = Math.floor(new Date().getTime()/1000.0)
-   
+async function getForecast (lat, lon) {
    let unit = 'imperial'
   let forecastCall = await fetch (`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=7100239e64c481b759f7889a357558f4&units=${unit}`, {mode: 'cors'});
   let forecastData = await forecastCall.json();
   console.log(forecastData);
-
-
   displayForecast(forecastData)
-
 }
  
-
-
-// const points = [40, 100, 1, 5, 25, 10];
-// points.sort(function(a, b){return a - b});
 function displayForecast(data) {
    const container = document.getElementById('forecast')
    const day1 = document.getElementById('day1')
@@ -130,7 +107,8 @@ function displayForecast(data) {
    }
    const max1 = day1Temp.reduce((a, b) => Math.max(a, b), -Infinity);
    const min1 = day1Temp.reduce((a, b) => Math.min(a, b))
-   day1.innerText= `${max1}°F/${min1}°F`;
+   day1.firstElementChild.innerText = `${max1}°F`;
+   day1.lastElementChild.innerText = `${min1}°F`;
 
    let day2Temp = [];
    for (let i = 8; i < 16; i++) {
@@ -138,7 +116,8 @@ function displayForecast(data) {
    }
    const max2 = day2Temp.reduce((a, b) => Math.max(a, b), -Infinity);
    const min2 = day2Temp.reduce((a, b) => Math.min(a, b))
-   day2.innerText= `${max2}°F/${min2}°F`;
+   day2.firstElementChild.innerText = `${max2}°F`;
+   day2.lastElementChild.innerText = `${min2}°F`;
 
    let day3Temp = [];
    for (let i = 16; i < 24; i++) {
@@ -146,7 +125,8 @@ function displayForecast(data) {
    }
    const max3 = day3Temp.reduce((a, b) => Math.max(a, b), -Infinity);
    const min3 = day3Temp.reduce((a, b) => Math.min(a, b))
-   day3.innerText= `${max3}°F/${min3}°F`;
+   day3.firstElementChild.innerText = `${max3}°F`;
+   day3.lastElementChild.innerText = `${min3}°F`;
 
    let day4Temp = [];
    for (let i = 24; i < 32; i++) {
@@ -154,7 +134,8 @@ function displayForecast(data) {
    }
    const max4 = day4Temp.reduce((a, b) => Math.max(a, b), -Infinity);
    const min4 = day4Temp.reduce((a, b) => Math.min(a, b))
-   day4.innerText= `${max4}°F/${min4}°F`;
+   day4.firstElementChild.innerText = `${max4}°F`;
+   day4.lastElementChild.innerText = `${min4}°F`;
 
    let day5Temp = [];
    for (let i = 32; i < 40; i++) {
@@ -162,7 +143,8 @@ function displayForecast(data) {
    }
    const max5 = day5Temp.reduce((a, b) => Math.max(a, b), -Infinity);
    const min5 = day5Temp.reduce((a, b) => Math.min(a, b))
-   day5.innerText= `${max5}°F/${min5}°F`;
+   day5.firstElementChild.innerText = `${max5}°F`;
+   day5.lastElementChild.innerText = `${min5}°F`;
 }
 
 function createIcon (type) {
@@ -173,42 +155,24 @@ function createIcon (type) {
 }
 
 function displayWeather(weatherData) {
-   const display = document.getElementById('display');
-
-   const nameDisplay = document.createElement('div');
-   nameDisplay.setAttribute('class', 'location')
+   const nameDisplay = document.getElementById('location');
    nameDisplay.innerText = weatherData.name;
    let weatherID = weatherData.weather[0].id;
    let currentIcon = weatherIconType(weatherID);
    nameDisplay.appendChild(createIcon(currentIcon));
-   display.appendChild(nameDisplay);
 
-   const tempDisplay = document.createElement('div');
-   tempDisplay.setAttribute('class', 'tempDisplay');
-   const temperature = document.createElement('div')
-   temperature.innerText = weatherData.main.temp;
-   let unit = document.createElement('div');
-   unit.setAttribute('class', 'unit');
-   unit.innerText = ' °F';
-   tempDisplay.appendChild(temperature);
-   tempDisplay.appendChild(unit);
-   display.appendChild(tempDisplay);
-
-   const humidityDisplay = document.createElement('div');
-   humidityDisplay.setAttribute('class', 'humidity')
+   const tempDisplay = document.getElementById('tempDisplay');
+   tempDisplay.innerText = `${weatherData.main.temp}°F`;
+ 
+   const humidityDisplay = document.querySelector('.humidity');
+   console.log(humidityDisplay);
    humidityDisplay.innerText = `${weatherData.main.humidity}% Humidity`;
-   display.appendChild(humidityDisplay);
 
-
-   const windDisplay = document.createElement('div');
-   windDisplay.setAttribute('class', 'windDisplay')
+   const windDisplay = document.querySelector('.windDisplay');
    let windDirection = getWind(weatherData.wind.deg);
-   windDisplay.innerText = `${windDirection} ${weatherData.wind.speed} MPH`;
-   display.appendChild(windDisplay);
-   // let currentBackground = createBackground(weatherBackground(weatherID));
-  // console.log(currentBackground);
-   display.style.backgroundImage = `url(` + weatherBackground(weatherID) + `)`
+   windDisplay.innerText = `Wind: ${windDirection} ${weatherData.wind.speed} MPH`;
 
+   display.style.backgroundImage = `url(` + weatherBackground(weatherID) + `)`
 }
 
 function getWind(degree) {
@@ -248,7 +212,6 @@ function weatherBackground (code, time) {
       return thunderBackground
    } else return windyBackground
 }
-
 
 function weatherIconType (code, time) {
    if (code === 800) {
